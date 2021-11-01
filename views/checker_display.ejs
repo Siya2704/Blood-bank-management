@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <%- include('partials/header') %>
+        <title>checker</title>
+        <style>
+            body {
+                background: lightgray;
+                margin: 0 auto;
+                margin-top: 50px;
+                width: 90%;
+                font-family: arial;
+            }
+
+            h1 {
+                text-align: center;
+            }
+        </style>
+</head>
+
+<body>
+    <%- include('partials/navbar') %>
+        <h1> Blood Samples </h1>
+        <%for(let donor of donors){%>
+            <div class="card row-md-6">
+                <div class="card-header">
+                    <h5>ID:<%=donor.donor_id%>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Name: <%=donor.donor_name%>
+                    </p>
+                    <p class="card-text">Gender: <%=donor.gender%>
+                    </p>
+                    <p class="card-text">date: <%=donor.c_date%>
+                    </p>
+                    <a href="/bloodbank/<%=donor.donor_id%>/<%=donor.donor_name%>/<%=donor.c_date%>/checker_form/<%=emp_id%>"
+                        class="btn btn-primary">Enter Details</a>
+                </div>
+            </div>
+            <%}%>
+                <%- include('partials/footer') %>
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <%- include('partials/header') %>
+        <title>Admin</title>
+        <style>
+            body {
+                background: lightgray;
+                margin: 0 auto;
+                margin-top: 50px;
+                width: 90%;
+                font-family: arial;
+            }
+
+            h1 {
+                margin-top: 30px;
+            }
+
+            table {
+                text-align: center;
+            }
+        </style>
+</head>
+
+<body>
+    <%- include('partials/navbar') %>
+        <table class="table-light table-hover " style="width:30%;margin:10px 10px">
+            <thead>
+                <tr>
+                    <th scope="col">Blood Group</th>
+                    <th scope="col">Quantity(ml)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%for(let x of data){%>
+                    <tr>
+                        <td>
+                            <%=x.blood_group%>
+                        </td>
+                        <td>
+                            <%=x.quantity%>
+                        </td>
+                    </tr>
+                    <%}%>
+            </tbody>
+        </table>
+        <h1> Hospital's Request </h1>
+        <%for(let hospital of requests){%>
+            <div class="card row-md-6">
+                <div class="card-header">
+                    <h5>ID:<%=hospital.id%>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Name: <%=hospital.name%>
+                    </p>
+                    <p class="card-text">Blood_group: <%=hospital.blood_group%>
+                    </p>
+                    <p class="card-text">Blood_group: <%=hospital.quantity%> ml
+                    </p>
+                    <p class="card-text">Address: <%=hospital.address%>
+                    </p>
+                    <p class="card-text">Contact: <%=hospital.phone_no%>
+                    </p>
+                    <p class="card-text">Date of request: <%=hospital.date_of_request%>
+                    </p>
+                    <a href="/bloodbank/grant/<%=hospital.id%>/<%=hospital.blood_group%>"
+                        class="btn btn-primary">Grant</a>
+                </div>
+            </div>
+            <%}%>
+                <%- include('partials/footer') %>
+</body>
+
+</html>

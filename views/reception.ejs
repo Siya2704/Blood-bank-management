@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <%- include('partials/header') %>
+        <title>New Donor</title>
+        <style>
+            body {
+                background: lightgray;
+                margin: 0 auto;
+                margin-top: 50px;
+                font-family: arial;
+            }
+
+            h1 {
+                color: brown;
+                text-align: center;
+            }
+
+            label {
+                color: #777;
+                width: 16%;
+                display: inline-block;
+            }
+
+            #container {
+                padding: 20px;
+                width: 60%;
+                margin: 0 auto;
+                margin-top: 1%;
+                margin-bottom: 1%;
+                background-color: white;
+            }
+
+            .userinput {
+                padding-top: 7px;
+                padding-bottom: 7px;
+                padding-left: 5px;
+                padding-right: 5px;
+                margin-bottom: 30px;
+            }
+
+            label {
+                color: brown;
+                font-size: 14px;
+            }
+
+            textarea {
+                color: brown;
+                font-size: 14px;
+            }
+
+            select {
+                color: brown;
+            }
+
+            .sampleBtn {
+                background-color: brown;
+                color: white;
+                border-color: white;
+                cursor: pointer;
+            }
+
+            @media(max-width:630px) {
+                label {
+                    display: block;
+                }
+
+                #container {
+                    padding: 20px;
+                    width: 80%;
+                }
+            }
+        </style>
+</head>
+
+<body>
+    <%- include('partials/navbar') %>
+        <div id="container">
+            <h1> Donor Registration Form </h1>
+            <form action="/bloodbank/reception/<%=emp_id%>" method="POST">
+                <div class="userinput">
+                    <label for="aadhar"> Aadhar Number: </label>
+                    <input type="number" name="aadhar" id="aadhar" required>
+                </div>
+
+                <div class="userinput">
+                    <label for="name"> Name </label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="userinput">
+                    <label for="email"> Email </label>
+                    <input type="text" id="email" name="email" />
+                </div>
+
+                <div class="userinput">
+                    <label> Gender </label>
+                    <input type="radio" name="gender" value="m" /> Male
+                    <input type="radio" name="gender" value="f" /> Female
+                    <input type="radio" name="gender" value="o" /> Other
+                </div>
+
+                <div class="userinput">
+                    <label for="dob"> DOB </label>
+                    <input type="date" name="dob" id="dob" required />
+                </div>
+
+                <div class="userinput">
+                    <label for="phone"> Phone </label>
+                    <input type="number" name="phone" id="phone" required />
+                </div>
+
+                <div class="userinput">
+                    <label for="address"> Address </label>
+                    <input type="text" name="address" id="address" required />
+                </div>
+
+                <div style="text-align:center">
+                    <input type="reset" class="sampleBtn btn btn-outline-primary" />
+                    <input type="submit" class="sampleBtn btn btn-outline-success" />
+                </div>
+
+            </form>
+
+        </div>
+        <%- include('partials/footer') %>
+</body>
+
+</html>

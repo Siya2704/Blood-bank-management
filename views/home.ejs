@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <%- include('partials/header') %>
+        <title>Blood Donation</title>
+        <style>
+            body {
+                background: lightgray;
+                font-family: 'Arvo', serif;
+            }
+
+            #headingSlash h2 {
+                font-size: 4rem;
+                font-weight: 100;
+            }
+
+            #headingSlash span {
+                color: #ea1c2c;
+            }
+
+            @media(max-width:1500px) {
+                #headingSlash h2 {
+                    font-size: 2.5rem;
+                    font-weight: 100;
+                }
+            }
+
+            .secTwo h2 {
+                color: #ea1c2c;
+                font-weight: 100;
+                font-size: 2.12rem;
+            }
+
+            .secTwo p {
+                color: #557a95;
+                font-weight: 100;
+                font-size: 1.12rem;
+                line-height: 2;
+            }
+        </style>
+</head>
+
+<body>
+    <%- include('partials/navbar') %>
+        <section class="container-fluid px-0">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div id="headingSlash" class="text-center text-white d-none d-lg-block mt-5">
+                        <h2>BLOOD<span>/</span>DONATION</h2>
+                        <h2>BLOOD<span>/</span>DONATION</h2>
+                        <h2>BLOOD<span>/</span>DONATION</h2>
+                        <h2>BLOOD<span>/</span>DONATION</h2>
+                        <h2>BLOOD<span>/</span>DONATION</h2>
+                        <h2>BLOOD<span>/</span>DONATION</h2>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img class="img-fluid" src="blood4.jfif" width="1800" height="1800" </div>
+                </div>
+            </div>
+        </section>
+        <section class="container-fluid px-0">
+            <div class="row align-items-center mt-md-15">
+                <div class="col-md-6 order-2 order-md-1">
+                    <img class="img-fluid" src="blood1.png" width="1800" height="1800" </div>
+                </div>
+                <div class="col-md-6 text-center order-1 order-md-2 secTwo">
+                    <h2>Introduction</h2>
+                    <img src="blood-drop.svg" width="60" height="60" class="d-none d-lg-inline">
+                    <p class="lead">Blood bank is a place where blood bag that is collected from blood donation
+                        events
+                        is
+                        stored in one place. The term “blood bank” refers to a division of a hospital laboratory
+                        where
+                        the
+                        storage of blood product occurs and where proper testing is performed to reduce the risk of
+                        transfusion related events.</p>
+                </div>
+            </div>
+
+            <div class="row align-items-center mt-md-15">
+                <div class="col-md-6 text-center secTwo">
+                    <h2>Problem Statement</h2>
+                    <img src="blood.svg" width="60" height="60" class="d-none d-lg-inline">
+                    <p class="lead">The percentage of people donating blood is increasing day by day due to
+                        awareness to
+                        donate blood for those needed. The blood received have to be managed thoroughly so that
+                        there
+                        will
+                        be no negative effect to the blood receiver once they received blood.</p>
+                </div>
+                <div class="col-md-6">
+                    <img class="img-fluid" src="blood2.png" width="1800" height="1800" </div>
+                </div>
+            </div>
+
+            <div class="row align-items-center mt-md-15">
+                <div class="col-md-6 order-2 order-md-1">
+                    <img class="img-fluid" src="blood3.jfif" width="1800" height="1800" </div>
+                </div>
+                <div class="col-md-6 text-center order-1 order-md-2 secTwo">
+                    <h2>Objective</h2>
+                    <img src="blood-drop.svg" width="60" height="60" class="d-none d-lg-inline">
+                    <p class="lead">The main objective of this application is to automate the complete operations of
+                        the
+                        blood bank. They need to manage the details of Blood Bank, Blood Group, Donor, Blood Stock.
+                        The
+                        purpose of the project is to build an application program to reduce the manual work for
+                        managing
+                        the
+                        Blood Bank, Blood Group, Record, Donor. This application helps to register all the donors,
+                        Blood
+                        collection details, blood issued details etc.
+                    </p>
+                </div>
+            </div>
+        </section>
+        <%- include('partials/footer') %>
+</body>
+
+</html>
