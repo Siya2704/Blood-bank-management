@@ -1,4 +1,5 @@
 Blood bank management system DBMS Project sem 5 COLLEGE OF ENGINEERING PUNE
+This is a website based on blood bank management system.The website is mainly made with Html,Css,Bootstrap,Javascript,Mysql
 
 for receptionist: emp_id= 1 or 2; password:Reception@123
 
