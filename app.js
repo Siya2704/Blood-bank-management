@@ -71,7 +71,14 @@ app.post('/bloodbank/reception/:emp_id', (req, res) => {
     var phone = i.phone;
     var email = i.email;
     var address = i.address;
-    var sql = `INSERT INTO donor VALUES ("${id}", "${name}", "${gender}", CURRENT_DATE(), "${dob}", "${phone}", "${email}", "${address}", "${emp_id}","0")`;
+    var sql = `INSERT INTO donor1 VALUES ("${id}", "${name}", "${gender}","${dob}", "${phone}", "${email}", "${address}")`;
+    try {
+        query(sql);
+    } catch (e) {
+        console.log(e);
+        pass;
+    }
+    var sql = `INSERT INTO donor2 VALUES ("${id}", CURRENT_DATE(),"${emp_id}","0")`;
     db.query(sql, function (err, data) {
         if (err) throw err;
     });
@@ -80,13 +87,14 @@ app.post('/bloodbank/reception/:emp_id', (req, res) => {
 
 app.get('/bloodbank/checker/:emp_id', (req, res) => {
     var { emp_id } = req.params;
-    var sql = `SELECT * FROM donor where is_done="0"`;
+    var sql = `SELECT donor2.donor_id,c_date,donor_name,gender FROM donor1 NATURAL JOIN donor2 where is_done="0"`;
     db.query(sql, function (err, data) {
         var donors = data;
         if (err) throw err;
         res.render('checker_display', { donors, emp_id });
     });
 })
+
 // convert date
 function convert(str) {
     var date = new Date(str),
@@ -124,7 +132,7 @@ app.post('/bloodbank/checker_form/:date/:emp_id', (req, res) => {
             if (err) throw err;
         });
     }
-    var sql = `UPDATE donor SET is_done = "1" WHERE donor_id = "${id}" and c_date = "${date}"`;
+    var sql = `UPDATE donor2 SET is_done = "1" WHERE donor_id = "${id}" and c_date = "${date}"`;
     db.query(sql, function (err, data) {
         if (err) throw err;
     });
@@ -144,7 +152,14 @@ app.post('/bloodbank/hospital', (req, res) => {
     var phone = i.phone;
     var bg = i.bg;
     var quantit = i.quantity;
-    var sql = `INSERT INTO hospital VALUES ("${id}", "${name}", "${address}", "${email}","${phone}","${bg}","${quantit}",CURRENT_DATE(),"0")`;
+    var sql = `INSERT INTO hospital1 VALUES ("${id}", "${name}", "${address}", "${email}","${phone}")`;
+    try {
+        query(sql);
+    } catch (e) {
+        console.log(e);
+        pass;
+    }
+    var sql = `INSERT INTO hospital2 VALUES ("${id}","${bg}","${quantit}",CURRENT_DATE(),"0")`;
     db.query(sql, function (err, data) {
         if (err) throw err;
     });
@@ -157,7 +172,7 @@ app.post('/bloodbank/hospital', (req, res) => {
 })
 
 app.get('/bloodbank/administrator/', (req, res) => {
-    var sql = `SELECT * FROM hospital,orders WHERE orders.id = hospital.id and orders.blood_group =  hospital.blood_group`;
+    var sql = `SELECT hospital2.id,name,address,phone_no,blood_group,quantity,date_of_request FROM hospital1 NATURAL JOIN hospital2 WHERE is_received=0`;
     db.query(sql, async function (err, data) {
         var requests = data;
         if (err) throw err;
@@ -183,12 +198,12 @@ async function get_data(sql) {
 app.get('/bloodbank/grant/:id/:bg', async (req, res) => {
     var { id, bg } = req.params;
     var l = []
-    var sql = `SELECT quantity from hospital WHERE id = "${id}" and blood_group = "${bg}" and is_received="0"`;
+    var sql = `SELECT quantity from hospital2 WHERE id = "${id}" and blood_group = "${bg}" and is_received="0"`;
     quant = await get_data(sql);
     var sql = `SELECT quantity from blood_bank WHERE blood_group = "${bg}"`;
     quant_bb = await get_data(sql);
     if (quant <= quant_bb) {
-        var sql = `UPDATE hospital SET is_received = 1 WHERE id = "${id}" and blood_group = "${bg}" and is_received="0"`;
+        var sql = `UPDATE hospital2 SET is_received = 1 WHERE id = "${id}" and blood_group = "${bg}" and is_received="0"`;
         db.query(sql, function (err, data) {
             if (err) throw err;
         });
@@ -216,18 +231,18 @@ async function get_data2(sql) {
 }
 
 app.get('/bloodbank/details', async (req, res) => {
-    var sql = "SELECT SUM(CASE WHEN gender = 'm' THEN 1 ELSE 0 END) as Male_count,SUM(CASE WHEN gender = 'f' THEN 1 ELSE 0 END) as Female_count, SUM(CASE WHEN gender = 'o' THEN 1 ELSE 0 END) as Other_count FROM donor";
+    var sql = "SELECT SUM(CASE WHEN gender = 'm' THEN 1 ELSE 0 END) as Male_count,SUM(CASE WHEN gender = 'f' THEN 1 ELSE 0 END) as Female_count, SUM(CASE WHEN gender = 'o' THEN 1 ELSE 0 END) as Other_count FROM donor1 NATURAL JOIN donor2";
     gender_count = await get_data2(sql);
-    sql = "SELECT COUNT(*) as `count` FROM `donor` where DATE_FORMAT(`c_date`, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')  GROUP BY MONTH(`c_date`)";
+    var sql = "SELECT SUM(CASE WHEN DATE_FORMAT(`c_date`, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m') THEN 1 ELSE 0 END) as count FROM donor2";
     var month = await get_data2(sql);
-    sql = "SELECT distinct name, address from hospital where is_received = '1'";
+    sql = "SELECT  distinct name, address  from hospital1 NATURAL JOIN hospital2 where is_received = '1'";
     const data = await query(sql);
     res.render('details', { gender_count, month, data });
 })
 
 app.post('/bloodbank/details', async (req, res) => {
     var search = req.body.query;
-    var sql = `SELECT * FROM donor where donor_id ="${search}"`;
+    var sql = `SELECT * FROM donor1 NATURAL JOIN donor2 where donor1.donor_id ="${search}"`;
     db.query(sql, function (err, data) {
         var donors = data;
         console.log(donors);

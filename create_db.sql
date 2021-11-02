@@ -1,4 +1,5 @@
-drop table blood,donor, staff, checker, receptionist, administrator,blood_bank,orders,hospital;
+-- drop table blood,donor1, donor2, staff, checker, receptionist, administrator,blood_bank,orders,hospital1,hospital2;
+select * from receptionist;
 create table staff (
 	emp_id int,
     name varchar(100) not null,
@@ -10,33 +11,43 @@ create table staff (
 
  create table receptionist(
 	emp_id int,
+    primary key (emp_id),
     foreign key(emp_id) references staff (emp_id)
  );
  
   create table checker(
 	emp_id int,
+    primary key (emp_id),
     foreign key(emp_id) references staff (emp_id)
  );
  
   create table administrator(
 	emp_id int,
+    primary key (emp_id),
     foreign key(emp_id) references staff (emp_id)
  );
  
-create table donor(
+create table donor1(
 	donor_id char(16),
     donor_name varchar(100) not null,
     gender char(1),
-    c_date date,
     dob date not null,
     phone_no varchar(10) not null,
     email varchar(50) default null,
     address varchar(100) not null,
+    primary key (donor_id)
+);
+
+create table donor2(
+	donor_id char(16),
+    c_date date,
     emp_id int,
     is_done boolean, 
     primary key (donor_id, c_date),
-    foreign key(emp_id) references receptionist (emp_id)
+    foreign key(emp_id) references receptionist (emp_id),
+    foreign key(donor_id) references donor1(donor_id)
 );
+
 create table blood (
 	donor_id char(16),
     c_date date,
@@ -46,7 +57,7 @@ create table blood (
 	emp_id int,
     is_good boolean,
     primary key (donor_id, c_date),
-    foreign key(donor_id,c_date) references donor(donor_id, c_date) on delete cascade,
+    foreign key(donor_id,c_date) references donor2(donor_id, c_date) on delete cascade,
     foreign key(emp_id) references checker (emp_id)
 );
 
@@ -58,23 +69,30 @@ create table blood_bank(
     foreign key(emp_id) references administrator (emp_id)
 );
 
-create table hospital(
+create table hospital1(
 	id varchar(10),
     name varchar(100) not null,
     address varchar(100) not null,
     email varchar(50) default null,
     phone_no varchar(10) not null,
+    primary key(id)
+);
+
+create table hospital2(
+	id varchar(10),
     blood_group char(3),
     quantity int,
     date_of_request date,
     is_received boolean,
-    primary key(id, blood_group)
+    primary key(id, blood_group),
+	foreign key(id) references hospital1 (id)
 );
+
 create table orders (
 	blood_group char(3),
 	id varchar(10),
     primary key(id, blood_group),
-    foreign key (id) references hospital(id) on delete cascade,
+    foreign key (id) references hospital2(id) on delete cascade,
     foreign key (blood_group) references blood_bank(blood_group)
 );
 
